@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .question-container {
+        padding: 50px;
+        width: 80%;
+        position: relative;
+        border: 1px solid lightgray;
+        box-shadow: 2px 2px 5px gray;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        color: rgb(34, 34, 77);
+      }
+      #score-board {
+        position: absolute;
+        right: 50px;
+      }
+      #question-statement {
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        margin-top: 40px;
+        text-align: center;
+      }
+      .choices-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .choice {
+        text-align: center;
+        width: 70%;
+        margin: 5px;
+        padding: 5px 0;
+
+        border-radius: 3px;
+      }
+      .choice-unselected {
+        background-color: lightblue;
+      }
+      .choice-selected {
+        background-color: royalblue;
+      }
+      .buttons {
+        margin-top: 20px;
+        position: relative;
+      }
+      button {
+        width: 20ch;
+        height: fit-content;
+        padding: 4px 0;
+        font-style: bolder;
+        font-family: "Times New Roman", Times, serif;
+        background-color: rgba(255, 166, 0, 0.76);
+        border: none;
+        outline: none;
+        border-radius: 3px;
+      }
+      #btn-next {
+        position: absolute;
+        right: 0px;
+      }
+      #score {
+        color: lime;
+      }
+      /* #btn-prev{
+        visibility: hidden;
+      } */
+    </style>
+  </head>
+
+  <body>
+    <!-- <div class="question-container">
+      <p id="score-board">Correct Answer <span id ='result'>0</span>/<span id="result-from">0</span></p>
+      <p id="question-statement">
+        <span id="serial">Q.1</span>
+        <span id="question"
+          >
+        </span>
+      </p>
+      <div class="choices-container"></div>
+      <div class="buttons">
+        <button id="btn-prev">Previous Question</button>
+        <button id="btn-next">Next Question</button>
+      </div>
+    </div> -->
+    <script>
+      const body = document.querySelector("body");
+      const questionContainer = document.createElement("div");
+      const scoreBoard = document.createElement("p");
+      const result = document.createElement("span");
+      const resultFrom = document.createElement("span");
+      const questionStatement = document.createElement("p");
+      const serial = document.createElement("span");
+      const question = document.createElement("span");
+      const choicesContainer = document.createElement("div");
+      const buttonsContainer = document.createElement("div");
+      const btnNext = document.createElement("button");
+      const btnPrev = document.createElement("button");
+      const slash = document.createTextNode("/");
+
+      questionContainer.className = "question-container";
+      scoreBoard.id = "score-board";
+      result.id = "result";
+      resultFrom.id = "result-from";
+      questionStatement.id = "question-statement";
+      serial.id = "serial";
+      question.id = "question";
+      choicesContainer.className = "choices-container";
+      buttonsContainer.className = "buttons";
+      btnPrev.id = "btn-prev";
+      btnNext.id = "btn-next";
+
+      body.appendChild(questionContainer);
+
+      questionContainer.appendChild(scoreBoard);
+      questionContainer.appendChild(questionStatement);
+      questionContainer.appendChild(choicesContainer);
+      questionContainer.appendChild(buttonsContainer);
+
+      scoreBoard.append(result);
+      scoreBoard.appendChild(slash);
+      scoreBoard.append(resultFrom);
+
+      questionStatement.append(serial);
+      questionStatement.append(question);
+
+      buttonsContainer.appendChild(btnPrev);
+      buttonsContainer.appendChild(btnNext);
+
+      btnNext.innerText = "Next Question";
+      btnPrev.innerText = "Prev Question";
+
+      const questions = [
+        {
+          id: 1,
+          question: "What does HTML stand for?",
+          choices: [
+            "Hyper Text Markup Language",
+            "Hot Mail",
+            "How to Make Lasagna",
+            "None of above",
+          ],
+          answer: 1,
+        },
+        {
+          id: 2,
+          question: "How many tags are in a regular element?",
+          choices: ["1", "2", "3", "4"],
+          answer: 2,
+        },
+        {
+          id: 3,
+          question:
+            "What is the difference between an opening tag and a closing tag?",
+          choices: [
+            "Opening tag has a / in front",
+            "Closing tag has a / in front",
+            "There is no difference",
+            "None of above",
+          ],
+          answer: 2,
+        },
+        {
+          id: 1,
+          question: "< br  / > What type of tag is this?",
+          choices: [
+            "Break tag",
+            "A broken one",
+            "An opening tag",
+            "None of above",
+          ],
+          answer: 1,
+        },
+        {
+          id: 1,
+          question: "< body > Is this an opening tag or a closing tag?",
+          choices: ["Opening", "Closing", "All the above", "None of above"],
+          answer: 1,
+        },
+        {
+          id: 1,
+          question: "< / body > Is this an opening tag or a closing tag?",
+          choices: ["Opening", "Closing", "All the above", "None of above"],
+          answer: 2,
+        },
+        {
+          id: 1,
+          question: "Where is the meta tag only found?",
+          choices: [
+            "The last page",
+            "The home page",
+            "The second page",
+            "None of above",
+          ],
+          answer: 2,
+        },
+        {
+          id: 1,
+          question: "Which is the correct way to tag an image?",
+          choices: [
+            "src=”image.jpg/gif” alt=”type some text”",
+            "Src=”image.jpg/gif” alt=”type some text”",
+            "All the above",
+            "None of above",
+          ],
+          answer: 1,
+        },
+        {
+          id: 1,
+          question:
+            "What is an element that does not have a closing tag called?",
+          choices: ["Tag", "Empty element", "Closed element", "None of above"],
+          answer: 2,
+        },
+        {
+          id: 1,
+          question: "Which of the following is an example of an empty element?",
+          choices: [
+            "< img / >",
+            "< img > < / img >",
+            "< / img>",
+            "None of above",
+          ],
+          answer: 1,
+        },
+        {
+          id: 1,
+          question: "What should values always be enclosed in?",
+          choices: [
+            "Quotation marks",
+            "Commas",
+            "Parenthesis",
+            "None of above",
+          ],
+          answer: 1,
+        },
+      ];
+
+      const answers = new Array(questions.length).fill(-1);
+      let serialNumber = 0;
+
+      const select = function (index) {
+        this.style.color = "red";
+        console.log("clicked", index);
+      };
+
+      const functionality = (operation) => {
+        // console.log(serialNumber);
+        btnPrev.style.visibility = serialNumber === 0 ? "hidden" : "visible";
+        btnNext.style.visibility =
+          serialNumber === questions.length - 1 ? "hidden" : "visible";
+
+        serial.innerText = `Q.${serialNumber + 1}`;
+        question.innerText = questions[serialNumber].question;
+
+        choicesContainer.innerHTML = "";
+
+        questions[serialNumber].choices.forEach((choice) => {
+          choicesContainer.innerHTML += `<div class="choice choice-unselected" >${choice}</div>`;
+        });
+        //continue from here
+
+        choicesContainer.childNodes.forEach((node, index) => {
+          node.addEventListener("click", (e) => {
+            console.log(serial.innerText);
+
+            console.log(answers[serial.innerText.substring(1)]);
+            choicesContainer.childNodes.forEach(
+              (currNode, selectedNodeIndex) =>
+                (currNode.style.background =
+                  index === selectedNodeIndex ? "royalblue" : "lightblue")
+            );
+          });
+        });
+
+        if (serialNumber === questions.length - 1 && serialNumber != 0) {
+          serialNumber--;
+          return;
+        }
+        if (serialNumber === 0 && questions.length !== 1) {
+          serialNumber++;
+          return;
+        }
+        if (serialNumber < questions.length - 1 && operation === "next") {
+          serialNumber++;
+        }
+        if (serialNumber > 0 && operation === "prev") {
+          serialNumber--;
+        }
+      };
+      functionality("next");
+      btnNext.addEventListener("click", () => functionality("next"));
+      btnPrev.addEventListener("click", () => functionality("prev"));
+    </script>
+  </body>
+</html>
